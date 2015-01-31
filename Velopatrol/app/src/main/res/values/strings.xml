@@ -4,5 +4,6 @@
     <string name="app_name">Velopatrol</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+	<string name="something_was_wrong">Щось було не так, спробуйте ще раз.</string>
 
 </resources>

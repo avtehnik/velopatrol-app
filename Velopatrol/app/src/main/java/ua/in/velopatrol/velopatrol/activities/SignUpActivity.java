@@ -2,11 +2,13 @@ package ua.in.velopatrol.velopatrol.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.rightutils.rightutils.activities.LoginActivity;
 import com.rightutils.rightutils.tasks.BaseTask;
 import com.rightutils.rightutils.utils.CacheUtils;
@@ -17,34 +19,36 @@ import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.User;
 import ua.in.velopatrol.velopatrol.enums.AccountType;
 import ua.in.velopatrol.velopatrol.tasks.SignInTask;
+import ua.in.velopatrol.velopatrol.tasks.SignUpTask;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 /**
  * Created by Anton on 1/30/2015.
  */
-public class SignInActivity extends RegIdActivity implements LoginActivity<User>, View.OnClickListener {
+public class SignUpActivity extends RegIdActivity implements LoginActivity<User>, View.OnClickListener {
 
-	private static final String TAG = SignInActivity.class.getSimpleName();
-	private TextView phone, password;
-	private Button login, register;
+	private static final String TAG = SignUpActivity.class.getSimpleName();
+	private TextView name, phone, password, confirmPassword;
+	private Button register;
 	private View progressView;
 	private Toast errorMsg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_in);
+		setContentView(R.layout.activity_sign_up);
+		name = (EditText) findViewById(R.id.f_name);
 		phone = (EditText) findViewById(R.id.f_phone);
 		password = (EditText) findViewById(R.id.f_password);
-		(login = (Button) findViewById(R.id.btn_login)).setOnClickListener(this);
+		confirmPassword = (EditText) findViewById(R.id.f_confirm_password);
 		(register = (Button) findViewById(R.id.btn_register)).setOnClickListener(this);
 		progressView = findViewById(R.id.progress_view);
-		errorMsg = Toast.makeText(SignInActivity.this, "", Toast.LENGTH_SHORT);
+		errorMsg = Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT);
 	}
 
 	@Override
 	public void sendRequest() {
-		final SignInTask signInTask = new SignInTask(phone.getText().toString(), password.getText().toString(), SignInActivity.this, progressView);
+		final SignUpTask signInTask = new SignUpTask(name.getText().toString(), phone.getText().toString(), password.getText().toString(), SignUpActivity.this, progressView);
 		signInTask.setCallback(new BaseTask.Callback() {
 			@Override
 			public void successful() {
@@ -67,31 +71,46 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 
 	@Override
 	public void doStart(final User user) {
-		SystemUtils.getCache(SignInActivity.this, new CacheUtils.CallBack<Cache>() {
+		SystemUtils.getCache(SignUpActivity.this, new CacheUtils.CallBack<Cache>() {
 			@Override
 			public void run(Cache cache) {
 				cache.setUser(user);
 			}
 		});
-		if (user.getUserType().equals(AccountType.USER.getValue())) {
-//			((DailyRateApp) getApplication()).startWorker();
-			startActivity(new Intent(SignInActivity.this, UserMainActivity.class));
-		} else {
-//			((DailyRateApp) getApplication()).startBooker();
-			startActivity(new Intent(SignInActivity.this, VolunteerMainActivity.class));
-		}
+//		((DailyRateApp) getApplication()).startWorker();
+		startActivity(new Intent(SignUpActivity.this, UserMainActivity.class));
 		finish();
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_login:
-				sendRequest();
-				break;
 			case R.id.btn_register:
-				startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+				if (isValid()) {
+					sendRequest();
+				}
 				break;
 		}
+	}
+
+	private boolean isValid() {
+		if (TextUtils.isEmpty(name.getText())) {
+			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть ім'я", Toast.LENGTH_SHORT).show();
+			name.requestFocus();
+			return false;
+		} else if (TextUtils.isEmpty(phone.getText())) {
+			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть номер телефону", Toast.LENGTH_SHORT).show();
+			phone.requestFocus();
+			return false;
+		} else if (TextUtils.isEmpty(password.getText())) {
+			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть пароль", Toast.LENGTH_SHORT).show();
+			password.requestFocus();
+			return false;
+		} else if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
+			Toast.makeText(SignUpActivity.this, "Паролі не співпадають", Toast.LENGTH_SHORT).show();
+			password.requestFocus();
+			return false;
+		}
+		return true;
 	}
 }

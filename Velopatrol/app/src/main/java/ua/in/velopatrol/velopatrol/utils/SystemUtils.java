@@ -17,7 +17,9 @@ import ua.in.velopatrol.velopatrol.entities.Cache;
  */
 public class SystemUtils {
 	private static final String TAG = SystemUtils.class.getSimpleName();
-	private static final String BASE_URL = "http://dailyrate.stageserver.org/api/";
+	private static final String BASE_URL = "http://velopatrol.in.ua/api/";
+	public static final String SIGN_IN_URL = BASE_URL + "v1/auth/login";
+	public static final String SIGN_UP_URL = BASE_URL + "v1/auth/register";
 
 	public static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	public static ImageLoader IMAGELOADER;

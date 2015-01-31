@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+
+	<LinearLayout
+		android:layout_centerInParent="true"
+		android:padding="15dp"
+		android:gravity="center_horizontal"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_height="wrap_content">
+
+			<EditText
+				android:gravity="center_horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Им'я"
+				android:inputType="phone"
+				android:ems="10"
+				android:textColor="#FFFFFF"
+				android:id="@+id/f_name"/>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_marginTop="20dp"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_height="wrap_content">
+
+			<EditText
+				android:gravity="center_horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Телефон"
+				android:inputType="phone"
+				android:ems="10"
+				android:textColor="#FFFFFF"
+				android:id="@+id/f_phone"/>
+		</LinearLayout>
+
+
+		<LinearLayout
+			android:layout_marginTop="20dp"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_height="wrap_content">
+
+			<EditText
+				android:gravity="center_horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="textPassword"
+				android:textColor="#FFFFFF"
+				android:ems="10"
+				android:hint="Пароль"
+				android:id="@+id/f_password"/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_marginTop="20dp"
+			android:layout_width="match_parent"
+			android:orientation="horizontal"
+			android:layout_height="wrap_content">
+
+			<EditText
+				android:gravity="center_horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="textPassword"
+				android:textColor="#FFFFFF"
+				android:ems="10"
+				android:hint="Повторіть пароль"
+				android:id="@+id/f_confirm_password"/>
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<Button
+		android:layout_alignParentBottom="true"
+		android:layout_margin="20dp"
+		android:id="@+id/btn_register"
+		android:textSize="18sp"
+		android:padding="10dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAllCaps="false"
+		android:text="Зареєструватися"/>
+
+	<include layout="@layout/progress_view"/>
+</RelativeLayout>
