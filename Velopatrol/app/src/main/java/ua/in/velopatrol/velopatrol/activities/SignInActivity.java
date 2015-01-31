@@ -40,6 +40,14 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 		(register = (Button) findViewById(R.id.btn_register)).setOnClickListener(this);
 		progressView = findViewById(R.id.progress_view);
 		errorMsg = Toast.makeText(SignInActivity.this, "", Toast.LENGTH_SHORT);
+		SystemUtils.getCache(SignInActivity.this, new CacheUtils.CallBack<Cache>() {
+			@Override
+			public void run(Cache cache) {
+				if (cache.getUser() != null) {
+					doStart(cache.getUser());
+				}
+			}
+		});
 	}
 
 	@Override
@@ -73,7 +81,7 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 				cache.setUser(user);
 			}
 		});
-		if (user.getUserType().equals(AccountType.USER.getValue())) {
+		if (AccountType.USER.getValue().equals(user.getUserType())) {
 //			((DailyRateApp) getApplication()).startWorker();
 			startActivity(new Intent(SignInActivity.this, UserMainActivity.class));
 		} else {

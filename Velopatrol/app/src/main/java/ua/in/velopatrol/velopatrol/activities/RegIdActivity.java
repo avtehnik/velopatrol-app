@@ -27,7 +27,7 @@ public abstract class RegIdActivity extends Activity {
 	public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 	public static final String PROPERTY_REG_ID = "registration_id";
 	public static final String PROPERTY_APP_VERSION = "appVersion";
-	public static String SENDER_ID = "351868960526";
+	public static String SENDER_ID = "277891158526";
 
 	private GoogleCloudMessaging gcm;
 

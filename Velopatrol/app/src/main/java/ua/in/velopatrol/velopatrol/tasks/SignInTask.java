@@ -16,6 +16,7 @@ import ch.boye.httpclientandroidlib.HttpStatus;
 import ch.boye.httpclientandroidlib.NameValuePair;
 import ch.boye.httpclientandroidlib.message.BasicNameValuePair;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
+import ua.in.velopatrol.velopatrol.R;
 import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.User;
@@ -29,7 +30,7 @@ public class SignInTask extends BaseTask {
 	private String phone;
 	private String password;
 	private ResponseError error;
-	private DataUser data;
+	private User user;
 	private Cache cache;
 
 	public SignInTask(String phone, String password, Context context, View progressBar) {
@@ -48,11 +49,11 @@ public class SignInTask extends BaseTask {
 	protected Boolean doInBackground(String... params) {
 		try {
 			if (!isOnline(context)) {
-				error = new ResponseError("Нема підключення до інтернету");
+				error = new ResponseError(context.getString(R.string.no_internet_connection));
 				return false;
 			}
 			if (cache.getPushId() == null || cache.getPushId().isEmpty()) {
-				error = new ResponseError("Будь-ласка почекайте 5 секунд та спробуйте ще раз.");
+				error = new ResponseError(context.getString(R.string.wait_5_sec));
 				return false;
 			}
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -67,7 +68,7 @@ public class SignInTask extends BaseTask {
 			if (status == HttpStatus.SC_OK) {
 				String result = EntityUtils.toString(response.getEntity());
 				Log.i(TAG, result);
-				data = SystemUtils.MAPPER.readValue(result, DataUser.class);
+				user = SystemUtils.MAPPER.readValue(result, User.class);
 				return true;
 			} else {
 				error = SystemUtils.MAPPER.readValue(response.getEntity().getContent(), ResponseError.class);
@@ -78,12 +79,8 @@ public class SignInTask extends BaseTask {
 		return false;
 	}
 
-	private static class DataUser {
-		public User user;
-	}
-
 	public User getUser() {
-		return data.user;
+		return user;
 	}
 
 	public ResponseError getError() {
