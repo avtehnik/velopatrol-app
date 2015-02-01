@@ -1,5 +1,6 @@
 package ua.in.velopatrol.velopatrol.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import ua.in.velopatrol.velopatrol.adapters.MainMenuAdapter;
 import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.MenuEntity;
 import ua.in.velopatrol.velopatrol.fragments.PlaceHolderFragment;
+import ua.in.velopatrol.velopatrol.fragments.UserHomeFragment;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 public class UserMainActivity extends SupportRightActionBarActivity implements View.OnClickListener {
@@ -103,7 +105,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 
 	private void setUpFragments() {
 		menuEntities = RightList.asRightList(
-				new MenuEntity(PlaceHolderFragment.class, "Виклики"),
+				new MenuEntity(UserHomeFragment.class, "Виклики"),
 				new MenuEntity(PlaceHolderFragment.class, "Волонтери"),
 				new MenuEntity(PlaceHolderFragment.class, "Новини"),
 				new MenuEntity(PlaceHolderFragment.class, "Профіль")
@@ -177,6 +179,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 						cache.setUser(null);
 					}
 				});
+				startActivity(new Intent(UserMainActivity.this, SignInActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 				finish();
 				break;
 		}

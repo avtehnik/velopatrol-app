@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<Button
+		android:layout_margin="10dp"
+		android:gravity="center"
+		android:textColor="#FFFFFF"
+		android:drawablePadding="10dp"
+		android:layout_centerInParent="true"
+		android:textSize="18sp"
+		android:text="НОВИЙ ВИКЛИК"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
+
+	<RadioGroup
+		android:id="@+id/challenge_type"
+		android:padding="1.5dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:checkedButton="@+id/rbtn_open"
+		android:layout_height="wrap_content">
+
+		<RadioButton
+			android:id="@+id/rbtn_open"
+			android:background="@drawable/rbtn_selector"
+			android:padding="10dp"
+			android:button="@null"
+			android:text="Відкриті"
+			android:gravity="center"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"/>
+
+		<RadioButton
+			android:id="@+id/rbtn_closed"
+			android:background="@drawable/rbtn_selector"
+			android:padding="10dp"
+			android:button="@null"
+			android:text="Виконані"
+			android:gravity="center"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"/>
+	</RadioGroup>
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycler_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+</LinearLayout>
