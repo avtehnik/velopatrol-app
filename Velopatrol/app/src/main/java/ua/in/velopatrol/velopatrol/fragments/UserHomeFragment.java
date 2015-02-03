@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.rightutils.rightutils.activities.SupportRightActionBarActivity;
+
 import ua.in.velopatrol.velopatrol.R;
 
 /**
@@ -22,8 +24,9 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 	private RecyclerView.LayoutManager mLayoutManager;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onResume() {
+		super.onResume();
+		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle("Виклики");
 	}
 
 	@Override

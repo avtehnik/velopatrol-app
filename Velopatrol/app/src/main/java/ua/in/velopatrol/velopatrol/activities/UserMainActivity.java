@@ -22,6 +22,7 @@ import ua.in.velopatrol.velopatrol.adapters.MainMenuAdapter;
 import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.MenuEntity;
 import ua.in.velopatrol.velopatrol.fragments.PlaceHolderFragment;
+import ua.in.velopatrol.velopatrol.fragments.UserArticlesFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserHomeFragment;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
@@ -37,7 +38,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		initActivity(R.id.fragment_container, new PlaceHolderFragment());
+		initActivity(R.id.fragment_container, new UserHomeFragment());
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_main);
 
@@ -90,11 +91,11 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayShowTitleEnabled(true);
 
 //		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_bg));
 //		actionBar.setCustomView(R.layout.actionbar_home);
-		actionBar.setDisplayShowCustomEnabled(true);
+//		actionBar.setDisplayShowCustomEnabled(true);
 		if (mDrawerToggle != null) {
 //			mDrawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() <= 1);
 			mDrawerToggle.setDrawerIndicatorEnabled(true);
@@ -107,7 +108,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 		menuEntities = RightList.asRightList(
 				new MenuEntity(UserHomeFragment.class, "Виклики"),
 				new MenuEntity(PlaceHolderFragment.class, "Волонтери"),
-				new MenuEntity(PlaceHolderFragment.class, "Новини"),
+				new MenuEntity(UserArticlesFragment.class, "Новини"),
 				new MenuEntity(PlaceHolderFragment.class, "Профіль")
 		);
 		final MainMenuAdapter adapter = new MainMenuAdapter(this, menuEntities);
