@@ -11,17 +11,19 @@ public class Article {
 	private long updated;
 	private String title;
 	private String text;
+	private String description;
 
 	public Article() {
 	}
 
-	public Article(long id, boolean published, long date, long updated, String title, String text) {
+	public Article(long id, boolean published, long date, long updated, String title, String text, String description) {
 		this.id = id;
 		this.published = published;
 		this.date = date;
 		this.updated = updated;
 		this.title = title;
 		this.text = text;
+		this.description = description;
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class Article {
 				", updated=" + updated +
 				", title='" + title + '\'' +
 				", text='" + text + '\'' +
+				", description='" + description + '\'' +
 				'}';
 	}
 
@@ -82,5 +85,13 @@ public class Article {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

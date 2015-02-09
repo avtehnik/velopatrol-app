@@ -21,6 +21,7 @@ public class SystemUtils {
 	public static final String SIGN_IN_URL = BASE_URL + "v1/auth/login";
 	public static final String SIGN_UP_URL = BASE_URL + "v1/auth/register";
 	public static final String ARTICLES_URL = BASE_URL + "v1/articles/list?timestamp=%d";
+	public static final String VOLUNTEERS_URL = BASE_URL + "v1/volunteer/list?timestamp=%d";
 
 	public static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	public static ImageLoader IMAGELOADER;

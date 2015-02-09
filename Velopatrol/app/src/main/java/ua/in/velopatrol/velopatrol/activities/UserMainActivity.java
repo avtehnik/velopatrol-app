@@ -24,6 +24,7 @@ import ua.in.velopatrol.velopatrol.entities.MenuEntity;
 import ua.in.velopatrol.velopatrol.fragments.PlaceHolderFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserArticlesFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserHomeFragment;
+import ua.in.velopatrol.velopatrol.fragments.UserVolunteerFragment;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 public class UserMainActivity extends SupportRightActionBarActivity implements View.OnClickListener {
@@ -107,7 +108,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 	private void setUpFragments() {
 		menuEntities = RightList.asRightList(
 				new MenuEntity(UserHomeFragment.class, "Виклики"),
-				new MenuEntity(PlaceHolderFragment.class, "Волонтери"),
+				new MenuEntity(UserVolunteerFragment.class, "Волонтери"),
 				new MenuEntity(UserArticlesFragment.class, "Новини"),
 				new MenuEntity(PlaceHolderFragment.class, "Профіль")
 		);
