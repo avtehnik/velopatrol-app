@@ -15,12 +15,10 @@ import com.rightutils.rightutils.collections.RightList;
 import com.rightutils.rightutils.tasks.BaseTask;
 
 import ua.in.velopatrol.velopatrol.R;
-import ua.in.velopatrol.velopatrol.adapters.ArticlesAdapter;
+import ua.in.velopatrol.velopatrol.adapters.VolunteersAdapter;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
-import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
-import ua.in.velopatrol.velopatrol.entities.User;
-import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
+import ua.in.velopatrol.velopatrol.entities.Volunteer;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveVolunteers;
 
 /**
@@ -32,14 +30,14 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 	private SwipeRefreshLayout mSwipeRefreshLayout;
 	private Toast errorMsg;
 	private View progressView;
-	private RightList<User> volunteers = new RightList<>();
+	private RightList<Volunteer> volunteers = new RightList<>();
 	private ListView listView;
-	private ArticlesAdapter adapter;
+	private VolunteersAdapter adapter;
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle("Волонтери");
+		((SupportRightActionBarActivity) getActivity()).getSupportActionBar().setTitle("Волонтери");
 	}
 
 	@Override
@@ -53,9 +51,9 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 
 		listView = (ListView) view.findViewById(R.id.list_view);
-//		volunteers = VelopatlorApp.dbUtils.getAll(Article.class);
-//		adapter = new ArticlesAdapter(getActivity(), volunteers);
-//		listView.setAdapter(adapter);
+		volunteers = VelopatlorApp.dbUtils.getVolunteers();
+		adapter = new VolunteersAdapter(getActivity(), volunteers);
+		listView.setAdapter(adapter);
 		errorMsg = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
 		progressView = view.findViewById(R.id.progress_view);
 		updateList(progressView);
@@ -74,8 +72,8 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 			@Override
 			public void successful() {
 				volunteers.clear();
-//				volunteers.addAll(VelopatlorApp.dbUtils.getAll(Article.class));
-//				adapter.notifyDataSetChanged();
+				volunteers.addAll(VelopatlorApp.dbUtils.getVolunteers());
+				adapter.notifyDataSetChanged();
 				mSwipeRefreshLayout.setRefreshing(false);
 			}
 

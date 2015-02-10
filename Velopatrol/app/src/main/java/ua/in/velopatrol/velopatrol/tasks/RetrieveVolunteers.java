@@ -5,12 +5,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.rightutils.rightutils.collections.Mapper;
+import com.rightutils.rightutils.collections.Predicate;
 import com.rightutils.rightutils.collections.RightList;
 import com.rightutils.rightutils.net.RequestUtils;
 import com.rightutils.rightutils.tasks.BaseTask;
 import com.rightutils.rightutils.utils.CacheUtils;
 
 import org.codehaus.jackson.type.TypeReference;
+
+import java.io.IOException;
 
 import ch.boye.httpclientandroidlib.HttpResponse;
 import ch.boye.httpclientandroidlib.HttpStatus;
@@ -64,7 +67,17 @@ public class RetrieveVolunteers extends BaseTask {
 				VelopatlorApp.dbUtils.add(volunteers.map(new Mapper<VolunteerDAO, Volunteer>() {
 					@Override
 					public VolunteerDAO apply(Volunteer volunteer) {
-						return VolunteerDAO.newInstance(volunteer);
+						try {
+							return VolunteerDAO.newInstance(volunteer);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						return null;
+					}
+				}).filter(new Predicate<VolunteerDAO>() {
+					@Override
+					public boolean apply(VolunteerDAO volunteerDAO) {
+						return volunteerDAO != null;
 					}
 				}));
 				return true;
