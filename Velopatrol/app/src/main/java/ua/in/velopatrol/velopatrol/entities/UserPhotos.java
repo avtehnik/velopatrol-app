@@ -1,53 +1,58 @@
 package ua.in.velopatrol.velopatrol.entities;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by Anton on 1/31/2015.
  */
 public class UserPhotos {
 
-	private String profile_thumb;
-	private String profile_small_thumb;
-	private String profile_chat_thumb;
+	@JsonProperty("profile_thumb")
+	private String profileThumb;
+	@JsonProperty("profile_small_thumb")
+	private String profileSmallThumb;
+	@JsonProperty("profile_chat_thumb")
+	private String profileChatThumb;
 
 	public UserPhotos() {
 	}
 
-	public UserPhotos(String profile_thumb, String profile_small_thumb, String profile_chat_thumb) {
-		this.profile_thumb = profile_thumb;
-		this.profile_small_thumb = profile_small_thumb;
-		this.profile_chat_thumb = profile_chat_thumb;
+	public UserPhotos(String profileThumb, String profileSmallThumb, String profileChatThumb) {
+		this.profileThumb = profileThumb;
+		this.profileSmallThumb = profileSmallThumb;
+		this.profileChatThumb = profileChatThumb;
 	}
 
 	@Override
 	public String toString() {
 		return "UserPhotos{" +
-				"profile_thumb='" + profile_thumb + '\'' +
-				", profile_small_thumb='" + profile_small_thumb + '\'' +
-				", profile_chat_thumb='" + profile_chat_thumb + '\'' +
+				"profileThumb='" + profileThumb + '\'' +
+				", profileSmallThumb='" + profileSmallThumb + '\'' +
+				", profileChatThumb='" + profileChatThumb + '\'' +
 				'}';
 	}
 
-	public String getProfile_thumb() {
-		return profile_thumb;
+	public String getProfileThumb() {
+		return profileThumb;
 	}
 
-	public void setProfile_thumb(String profile_thumb) {
-		this.profile_thumb = profile_thumb;
+	public void setProfileThumb(String profileThumb) {
+		this.profileThumb = profileThumb;
 	}
 
-	public String getProfile_small_thumb() {
-		return profile_small_thumb;
+	public String getProfileSmallThumb() {
+		return profileSmallThumb;
 	}
 
-	public void setProfile_small_thumb(String profile_small_thumb) {
-		this.profile_small_thumb = profile_small_thumb;
+	public void setProfileSmallThumb(String profileSmallThumb) {
+		this.profileSmallThumb = profileSmallThumb;
 	}
 
-	public String getProfile_chat_thumb() {
-		return profile_chat_thumb;
+	public String getProfileChatThumb() {
+		return profileChatThumb;
 	}
 
-	public void setProfile_chat_thumb(String profile_chat_thumb) {
-		this.profile_chat_thumb = profile_chat_thumb;
+	public void setProfileChatThumb(String profileChatThumb) {
+		this.profileChatThumb = profileChatThumb;
 	}
 }

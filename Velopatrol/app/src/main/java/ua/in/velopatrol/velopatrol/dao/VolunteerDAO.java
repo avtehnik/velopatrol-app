@@ -32,8 +32,8 @@ public class VolunteerDAO {
 		volunteerDAO.setSocialLink(volunteer.getSocialLink());
 		volunteerDAO.setUpdated(volunteer.getUpdated());
 		volunteerDAO.setDescription(volunteer.getDescription());
-		volunteerDAO.setAreas(SystemUtils.MAPPER.writeValueAsString(volunteer.getAreas()));
-		volunteerDAO.setPhotos(SystemUtils.MAPPER.writeValueAsString(volunteer.getPhotos()));
+		volunteerDAO.setAreas(volunteer.getAreas() != null ? SystemUtils.MAPPER.writeValueAsString(volunteer.getAreas()) : null);
+		volunteerDAO.setPhotos(volunteer.getPhotos() != null ? SystemUtils.MAPPER.writeValueAsString(volunteer.getPhotos()) : null);
 		return volunteerDAO;
 	}
 
@@ -46,8 +46,8 @@ public class VolunteerDAO {
 		volunteer.setSocialLink(socialLink);
 		volunteer.setUpdated(updated);
 		volunteer.setDescription(description);
-		volunteer.setAreas((RightList<String>) SystemUtils.MAPPER.readValue(areas, new TypeReference<RightList<String>>() {}));
-		volunteer.setPhotos(SystemUtils.MAPPER.readValue(photos, UserPhotos.class));
+		volunteer.setAreas(areas != null ? (RightList<String>) SystemUtils.MAPPER.readValue(areas, new TypeReference<RightList<String>>() {}) : null);
+		volunteer.setPhotos(photos != null ? SystemUtils.MAPPER.readValue(photos, UserPhotos.class) : null);
 		return volunteer;
 	}
 
