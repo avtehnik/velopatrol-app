@@ -3,13 +3,11 @@ package ua.in.velopatrol.velopatrol.utils;
 import android.content.Context;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.rightutils.rightutils.utils.CacheUtils;
-
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import ua.in.velopatrol.velopatrol.entities.Cache;
 
 /**
@@ -23,11 +21,24 @@ public class SystemUtils {
 	public static final String ARTICLES_URL = BASE_URL + "v1/articles/list?timestamp=%d";
 	public static final String VOLUNTEERS_URL = BASE_URL + "v1/volunteer/list?timestamp=%d";
 
+	public static Toast systemToast;
+
 	public static final ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	public static ImageLoader IMAGELOADER;
 
 	public static void getCache(Context context, CacheUtils.CallBack<Cache> callBack) {
 		CacheUtils.getCache(MAPPER, Cache.class, context, callBack, true);
+	}
+
+	public static void toast(Context context, String message) {
+		if (systemToast != null) {
+			systemToast.cancel();
+		}
+		systemToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+		systemToast.show();
+	}
+
+	public static void toast(Context context, int resource) {
+		toast(context, context.getResources().getString(resource));
 	}
 
 	public static String getDeviceId(Context context) {

@@ -24,6 +24,7 @@ import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
 import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
+import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 /**
  * Created by Anton on 2/1/2015.
@@ -32,7 +33,6 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 
 	private static final String TAG = UserArticlesFragment.class.getSimpleName();
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-	private Toast errorMsg;
 	private View progressView;
 	private RightList<Article> articles = new RightList<>();
 	private ListView listView;
@@ -58,7 +58,6 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 		articles = VelopatlorApp.dbUtils.getAll(Article.class);
 		adapter = new ArticlesAdapter(getActivity(), articles);
 		listView.setAdapter(adapter);
-		errorMsg = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
 		progressView = view.findViewById(R.id.progress_view);
 		updateList(progressView);
 	}
@@ -85,11 +84,9 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 			public void failed() {
 				ResponseError error = task.getError();
 				if (error != null) {
-					errorMsg.setText(error.getMessage());
-					errorMsg.show();
+					SystemUtils.toast(getActivity(),error.getMessage());
 				} else {
-					errorMsg.setText(R.string.something_was_wrong);
-					errorMsg.show();
+					SystemUtils.toast(getActivity(), R.string.something_was_wrong);
 				}
 				mSwipeRefreshLayout.setRefreshing(false);
 			}
