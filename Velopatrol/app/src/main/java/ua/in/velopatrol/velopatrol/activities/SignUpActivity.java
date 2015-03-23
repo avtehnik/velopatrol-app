@@ -18,6 +18,7 @@ import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.User;
 import ua.in.velopatrol.velopatrol.enums.AccountType;
+import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.SignInTask;
 import ua.in.velopatrol.velopatrol.tasks.SignUpTask;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
@@ -30,8 +31,6 @@ public class SignUpActivity extends RegIdActivity implements LoginActivity<User>
 	private static final String TAG = SignUpActivity.class.getSimpleName();
 	private TextView name, phone, password, confirmPassword;
 	private Button register;
-	private View progressView;
-	private Toast errorMsg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +41,12 @@ public class SignUpActivity extends RegIdActivity implements LoginActivity<User>
 		password = (EditText) findViewById(R.id.f_password);
 		confirmPassword = (EditText) findViewById(R.id.f_confirm_password);
 		(register = (Button) findViewById(R.id.btn_register)).setOnClickListener(this);
-		progressView = findViewById(R.id.progress_view);
-		errorMsg = Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT);
 	}
 
 	@Override
 	public void sendRequest() {
-		final SignUpTask signInTask = new SignUpTask(name.getText().toString(), phone.getText().toString(), password.getText().toString(), SignUpActivity.this, progressView);
-		signInTask.setCallback(new BaseTask.Callback() {
+		final SignUpTask signInTask = new SignUpTask(name.getText().toString(), phone.getText().toString(), password.getText().toString(), SignUpActivity.this);
+		signInTask.setCallback(new BaseTaskMaterial.Callback() {
 			@Override
 			public void successful() {
 				doStart(signInTask.getUser());
@@ -59,11 +56,9 @@ public class SignUpActivity extends RegIdActivity implements LoginActivity<User>
 			public void failed() {
 				ResponseError error = signInTask.getError();
 				if (error != null) {
-					errorMsg.setText(error.getMessage());
-					errorMsg.show();
+					SystemUtils.toast(SignUpActivity.this, error.getMessage());
 				} else {
-					errorMsg.setText(R.string.something_was_wrong);
-					errorMsg.show();
+					SystemUtils.toast(SignUpActivity.this, R.string.something_was_wrong);
 				}
 			}
 		}).execute();
@@ -95,19 +90,19 @@ public class SignUpActivity extends RegIdActivity implements LoginActivity<User>
 
 	private boolean isValid() {
 		if (TextUtils.isEmpty(name.getText())) {
-			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть ім'я", Toast.LENGTH_SHORT).show();
+			SystemUtils.toast(SignUpActivity.this, R.string.enter_name);
 			name.requestFocus();
 			return false;
 		} else if (TextUtils.isEmpty(phone.getText())) {
-			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть номер телефону", Toast.LENGTH_SHORT).show();
+			SystemUtils.toast(SignUpActivity.this, R.string.enter_phone);
 			phone.requestFocus();
 			return false;
 		} else if (TextUtils.isEmpty(password.getText())) {
-			Toast.makeText(SignUpActivity.this, "Будь-ласка введіть пароль", Toast.LENGTH_SHORT).show();
+			SystemUtils.toast(SignUpActivity.this, R.string.enter_password);
 			password.requestFocus();
 			return false;
 		} else if (!password.getText().toString().equals(confirmPassword.getText().toString())) {
-			Toast.makeText(SignUpActivity.this, "Паролі не співпадають", Toast.LENGTH_SHORT).show();
+			SystemUtils.toast(SignUpActivity.this, R.string.passwords_do_not_match);
 			password.requestFocus();
 			return false;
 		}

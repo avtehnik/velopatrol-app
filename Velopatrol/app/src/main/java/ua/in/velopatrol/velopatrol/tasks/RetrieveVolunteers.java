@@ -33,14 +33,14 @@ import static com.rightutils.rightutils.utils.RightUtils.isOnline;
 /**
  * Created by Anton on 2/3/2015.
  */
-public class RetrieveVolunteers extends BaseTask {
+public class RetrieveVolunteers extends BaseTaskMaterial {
 
 	private static final String TAG = RetrieveVolunteers.class.getSimpleName();
 	private ResponseError error;
 	private Cache cache;
 
-	public RetrieveVolunteers(Context context, View progressBar) {
-		super(context, progressBar);
+	public RetrieveVolunteers(Context context, boolean showProgress) {
+		super(context, showProgress);
 		SystemUtils.getCache(context, new CacheUtils.CallBack<Cache>() {
 			@Override
 			public void run(Cache cache) {

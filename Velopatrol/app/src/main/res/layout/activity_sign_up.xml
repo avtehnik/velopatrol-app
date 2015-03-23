@@ -96,5 +96,4 @@
 		android:textAllCaps="false"
 		android:text="Зареєструватися"/>
 
-	<include layout="@layout/progress_view"/>
 </RelativeLayout>

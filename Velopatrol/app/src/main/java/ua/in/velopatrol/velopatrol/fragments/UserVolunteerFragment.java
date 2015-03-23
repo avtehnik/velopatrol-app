@@ -19,7 +19,9 @@ import ua.in.velopatrol.velopatrol.adapters.VolunteersAdapter;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.Volunteer;
+import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveVolunteers;
+import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 /**
  * Created by Anton on 2/1/2015.
@@ -28,8 +30,6 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 
 	private static final String TAG = UserVolunteerFragment.class.getSimpleName();
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-	private Toast errorMsg;
-	private View progressView;
 	private RightList<Volunteer> volunteers = new RightList<>();
 	private ListView listView;
 	private VolunteersAdapter adapter;
@@ -37,12 +37,12 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 	@Override
 	public void onResume() {
 		super.onResume();
-		((SupportRightActionBarActivity) getActivity()).getSupportActionBar().setTitle("Волонтери");
+		((SupportRightActionBarActivity) getActivity()).getSupportActionBar().setTitle(R.string.volunteer);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_user_volunteers, null);
+		return inflater.inflate(R.layout.fragment_user_volunteers, container, false);
 	}
 
 	@Override
@@ -54,21 +54,19 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 		volunteers = VelopatlorApp.dbUtils.getVolunteers();
 		adapter = new VolunteersAdapter(getActivity(), volunteers);
 		listView.setAdapter(adapter);
-		errorMsg = Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT);
-		progressView = view.findViewById(R.id.progress_view);
-		updateList(progressView);
+		updateList(true);
 	}
 
 
 	@Override
 	public void onRefresh() {
 		mSwipeRefreshLayout.setRefreshing(true);
-		updateList(null);
+		updateList(false);
 	}
 
-	private void updateList(View progressView) {
-		final RetrieveVolunteers task = new RetrieveVolunteers(getActivity(), progressView);
-		task.setCallback(new BaseTask.Callback() {
+	private void updateList(boolean showProgress) {
+		final RetrieveVolunteers task = new RetrieveVolunteers(getActivity(), showProgress);
+		task.setCallback(new BaseTaskMaterial.Callback() {
 			@Override
 			public void successful() {
 				volunteers.clear();
@@ -81,11 +79,9 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 			public void failed() {
 				ResponseError error = task.getError();
 				if (error != null) {
-					errorMsg.setText(error.getMessage());
-					errorMsg.show();
+					SystemUtils.toast(getActivity(), error.getMessage());
 				} else {
-					errorMsg.setText(R.string.something_was_wrong);
-					errorMsg.show();
+					SystemUtils.toast(getActivity(),R.string.something_was_wrong);
 				}
 				mSwipeRefreshLayout.setRefreshing(false);
 			}

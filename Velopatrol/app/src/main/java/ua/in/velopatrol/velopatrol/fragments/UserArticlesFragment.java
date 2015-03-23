@@ -23,6 +23,7 @@ import ua.in.velopatrol.velopatrol.adapters.ArticlesAdapter;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
 import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
+import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
@@ -33,7 +34,6 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 
 	private static final String TAG = UserArticlesFragment.class.getSimpleName();
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-	private View progressView;
 	private RightList<Article> articles = new RightList<>();
 	private ListView listView;
 	private ArticlesAdapter adapter;
@@ -41,12 +41,12 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 	@Override
 	public void onResume() {
 		super.onResume();
-		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle("Новини");
+		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.news);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_user_articles, null);
+		return inflater.inflate(R.layout.fragment_user_articles, container, false);
 	}
 
 	@Override
@@ -58,20 +58,19 @@ public class UserArticlesFragment extends Fragment implements SwipeRefreshLayout
 		articles = VelopatlorApp.dbUtils.getAll(Article.class);
 		adapter = new ArticlesAdapter(getActivity(), articles);
 		listView.setAdapter(adapter);
-		progressView = view.findViewById(R.id.progress_view);
-		updateList(progressView);
+		updateList(true);
 	}
 
 
 	@Override
 	public void onRefresh() {
 		mSwipeRefreshLayout.setRefreshing(true);
-		updateList(null);
+		updateList(false);
 	}
 
-	private void updateList(View progressView) {
-		final RetrieveArticles task = new RetrieveArticles(getActivity(), progressView);
-		task.setCallback(new BaseTask.Callback() {
+	private void updateList(boolean showProgress) {
+		final RetrieveArticles task = new RetrieveArticles(getActivity(), showProgress);
+		task.setCallback(new BaseTaskMaterial.Callback() {
 			@Override
 			public void successful() {
 				articles.clear();

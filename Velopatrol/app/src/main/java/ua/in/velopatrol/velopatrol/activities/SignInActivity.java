@@ -16,6 +16,7 @@ import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.User;
 import ua.in.velopatrol.velopatrol.enums.AccountType;
+import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.SignInTask;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
@@ -27,8 +28,6 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 	private static final String TAG = SignInActivity.class.getSimpleName();
 	private TextView phone, password;
 	private Button login, register;
-	private View progressView;
-	private Toast errorMsg;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,6 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 		password = (EditText) findViewById(R.id.f_password);
 		(login = (Button) findViewById(R.id.btn_login)).setOnClickListener(this);
 		(register = (Button) findViewById(R.id.btn_register)).setOnClickListener(this);
-		progressView = findViewById(R.id.progress_view);
-		errorMsg = Toast.makeText(SignInActivity.this, "", Toast.LENGTH_SHORT);
 		SystemUtils.getCache(SignInActivity.this, new CacheUtils.CallBack<Cache>() {
 			@Override
 			public void run(Cache cache) {
@@ -52,8 +49,8 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 
 	@Override
 	public void sendRequest() {
-		final SignInTask signInTask = new SignInTask(phone.getText().toString(), password.getText().toString(), SignInActivity.this, progressView);
-		signInTask.setCallback(new BaseTask.Callback() {
+		final SignInTask signInTask = new SignInTask(phone.getText().toString(), password.getText().toString(), SignInActivity.this);
+		signInTask.setCallback(new BaseTaskMaterial.Callback() {
 			@Override
 			public void successful() {
 				doStart(signInTask.getUser());
@@ -63,11 +60,9 @@ public class SignInActivity extends RegIdActivity implements LoginActivity<User>
 			public void failed() {
 				ResponseError error = signInTask.getError();
 				if (error != null) {
-					errorMsg.setText(error.getMessage());
-					errorMsg.show();
+					SystemUtils.toast(SignInActivity.this, error.getMessage());
 				} else {
-					errorMsg.setText(R.string.something_was_wrong);
-					errorMsg.show();
+					SystemUtils.toast(SignInActivity.this, R.string.something_was_wrong);
 				}
 			}
 		}).execute();

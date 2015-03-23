@@ -26,12 +26,12 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 	@Override
 	public void onResume() {
 		super.onResume();
-		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle("Виклики");
+		((SupportRightActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.invoke);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_user_home, null);
+		return inflater.inflate(R.layout.fragment_user_home, container, false);
 	}
 
 	@Override

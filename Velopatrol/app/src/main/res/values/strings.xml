@@ -7,5 +7,12 @@
 	<string name="something_was_wrong">Щось було не так, спробуйте ще раз.</string>
 	<string name="no_internet_connection">Нема підключення до інтернету</string>
 	<string name="wait_5_sec">Будь-ласка почекайте 5 секунд та спробуйте ще раз.</string>
+	<string name="enter_name">Будь-ласка введіть ім\'я</string>
+	<string name="enter_phone">Будь-ласка введіть номер телефону</string>
+	<string name="enter_password">Будь-ласка введіть пароль</string>
+	<string name="passwords_do_not_match">Паролі не співпадають</string>
+	<string name="news">Новини</string>
+	<string name="invoke">Виклики</string>
+	<string name="volunteer">Волонтери</string>
 
 </resources>

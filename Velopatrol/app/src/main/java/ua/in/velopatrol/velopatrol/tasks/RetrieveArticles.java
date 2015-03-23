@@ -27,14 +27,14 @@ import static com.rightutils.rightutils.utils.RightUtils.isOnline;
 /**
  * Created by Anton on 2/3/2015.
  */
-public class RetrieveArticles extends BaseTask {
+public class RetrieveArticles extends BaseTaskMaterial {
 
 	private static final String TAG = RetrieveArticles.class.getSimpleName();
 	private ResponseError error;
 	private Cache cache;
 
-	public RetrieveArticles(Context context, View progressBar) {
-		super(context, progressBar);
+	public RetrieveArticles(Context context, boolean showProgress) {
+		super(context, showProgress);
 		SystemUtils.getCache(context, new CacheUtils.CallBack<Cache>() {
 			@Override
 			public void run(Cache cache) {

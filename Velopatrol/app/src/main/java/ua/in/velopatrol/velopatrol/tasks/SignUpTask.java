@@ -24,7 +24,7 @@ import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 import static com.rightutils.rightutils.utils.RightUtils.isOnline;
 
-public class SignUpTask extends BaseTask {
+public class SignUpTask extends BaseTaskMaterial {
 
 	private static final String TAG = SignUpTask.class.getName();
 	private String name;
@@ -34,8 +34,8 @@ public class SignUpTask extends BaseTask {
 	private User user;
 	private Cache cache;
 
-	public SignUpTask(String name, String phone, String password, Context context, View progressBar) {
-		super(context, progressBar);
+	public SignUpTask(String name, String phone, String password, Context context) {
+		super(context, true);
 		this.name = name;
 		this.phone = phone;
 		this.password = password;
