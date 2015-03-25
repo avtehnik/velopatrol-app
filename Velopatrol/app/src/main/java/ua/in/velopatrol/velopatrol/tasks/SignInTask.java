@@ -56,7 +56,7 @@ public class SignInTask extends BaseTaskMaterial {
 				error = new ResponseError(context.getString(R.string.wait_5_sec));
 				return false;
 			}
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			List<NameValuePair> nameValuePairs = new ArrayList<>();
 			nameValuePairs.add(new BasicNameValuePair("phone", phone));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
 			nameValuePairs.add(new BasicNameValuePair("token", cache.getPushId()));

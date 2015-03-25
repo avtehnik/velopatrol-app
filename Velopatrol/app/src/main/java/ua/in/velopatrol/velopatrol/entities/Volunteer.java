@@ -1,6 +1,7 @@
 package ua.in.velopatrol.velopatrol.entities;
 
 import com.rightutils.rightutils.collections.RightList;
+import com.rightutils.rightutils.db.ColumnDAO;
 
 /**
  * Created by Anton on 1/30/2015.
@@ -13,7 +14,9 @@ public class Volunteer {
 	private String socialLink;
 	private long updated;
 	private String description;
+	@ColumnDAO
 	private RightList<String> areas;
+	@ColumnDAO
 	private UserPhotos photos;
 
 	public Volunteer() {

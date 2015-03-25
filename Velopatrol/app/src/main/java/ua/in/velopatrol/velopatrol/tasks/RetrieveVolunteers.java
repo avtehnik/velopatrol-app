@@ -21,8 +21,6 @@ import ch.boye.httpclientandroidlib.message.BasicHeader;
 import ch.boye.httpclientandroidlib.util.EntityUtils;
 import ua.in.velopatrol.velopatrol.R;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
-import ua.in.velopatrol.velopatrol.dao.VolunteerDAO;
-import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.Volunteer;
@@ -64,22 +62,7 @@ public class RetrieveVolunteers extends BaseTaskMaterial {
 				String result = EntityUtils.toString(response.getEntity());
 				Log.i(TAG, result);
 				RightList<Volunteer> volunteers = SystemUtils.MAPPER.readValue(result, new TypeReference<RightList<Volunteer>>() {});
-				VelopatlorApp.dbUtils.add(volunteers.map(new Mapper<VolunteerDAO, Volunteer>() {
-					@Override
-					public VolunteerDAO apply(Volunteer volunteer) {
-						try {
-							return VolunteerDAO.newInstance(volunteer);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						return null;
-					}
-				}).filter(new Predicate<VolunteerDAO>() {
-					@Override
-					public boolean apply(VolunteerDAO volunteerDAO) {
-						return volunteerDAO != null;
-					}
-				}));
+				VelopatlorApp.dbUtils.add(volunteers);
 				return true;
 			} else {
 				error = SystemUtils.MAPPER.readValue(response.getEntity().getContent(), ResponseError.class);
