@@ -16,23 +16,17 @@
 		android:id="@+id/drawer_menu"
 		android:orientation="vertical"
 		android:layout_gravity="start"
-		android:background="#333333"
-		android:layout_width="240dp"
+		android:background="@color/menu_bg"
+		android:layout_width="@dimen/menu_width"
 		android:layout_height="match_parent">
 
 		<ListView
 			android:id="@+id/list_drawer"
-			android:layout_width="match_parent"
-			android:layout_weight="1"
-			android:layout_height="0dp"
-			android:choiceMode="singleChoice"
-			android:dividerHeight="1dp"
-			android:divider="#80FFFFFF"
-			android:scrollbars="none"/>
+			style="@style/menu_list_view"/>
 
 		<View
 			android:layout_width="match_parent"
-			android:background="#80FFFFFF"
+			android:background="@color/menu_divider"
 			android:layout_height="1dp"/>
 		<RelativeLayout
 			android:id="@+id/logout_container"
@@ -42,13 +36,8 @@
 			android:layout_height="wrap_content">
 
 			<TextView
-				android:layout_centerInParent="true"
-				android:text="Вийти"
-				android:padding="15dp"
-				android:textColor="#FFFFFF"
-				android:textSize="20sp"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"/>
+				android:text="@string/logout"
+				style="@style/menu_text_view"/>
 		</RelativeLayout>
 
 	</LinearLayout>

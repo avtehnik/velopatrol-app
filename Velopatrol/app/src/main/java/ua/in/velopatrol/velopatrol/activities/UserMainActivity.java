@@ -35,7 +35,6 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 	private RightList<MenuEntity> menuEntities;
 	private LinearLayout drawerMenu;
 	private ListView listMenu;
-	private ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +88,11 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		actionBar = getSupportActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(true);
 
-//		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar_bg));
-//		actionBar.setCustomView(R.layout.actionbar_home);
-//		actionBar.setDisplayShowCustomEnabled(true);
 		if (mDrawerToggle != null) {
 //			mDrawerToggle.setDrawerIndicatorEnabled(getSupportFragmentManager().getBackStackEntryCount() <= 1);
 			mDrawerToggle.setDrawerIndicatorEnabled(true);
