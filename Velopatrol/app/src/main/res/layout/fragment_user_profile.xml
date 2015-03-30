@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical"
+			  android:padding="15dp"
+			  android:layout_width="match_parent"
+			  android:layout_height="match_parent">
+
+	<EditText
+		android:id="@+id/f_name"
+		android:hint="Ім'я"
+		android:gravity="center"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
+
+	<Button
+		android:id="@+id/btn_change_number"
+		android:text="Змінити номер телефону"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/button_style"/>
+
+	<Button
+		android:id="@+id/btn_change_password"
+		android:text="Змінити пароль"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/button_style"/>
+
+	<Button
+		android:id="@+id/btn_save"
+		android:text="Зберегти"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="@style/button_style"/>
+
+</LinearLayout>

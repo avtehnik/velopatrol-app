@@ -59,11 +59,7 @@
 		<Button
 			android:layout_marginTop="20dp"
 			android:id="@+id/btn_login"
-			android:textSize="18sp"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:textAllCaps="false"
-			android:padding="10dp"
+			style="@style/button_style"
 			android:text="Увійти"/>
 
 		<TextView
@@ -82,11 +78,7 @@
 		android:layout_alignParentBottom="true"
 		android:layout_margin="20dp"
 		android:id="@+id/btn_register"
-		android:textSize="18sp"
-		android:padding="10dp"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:textAllCaps="false"
-		android:text="Реєстрація"/>
+		android:text="Реєстрація"
+		style="@style/button_style"/>
 
 </RelativeLayout>

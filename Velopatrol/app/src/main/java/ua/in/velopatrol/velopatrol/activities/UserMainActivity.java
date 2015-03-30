@@ -24,6 +24,7 @@ import ua.in.velopatrol.velopatrol.entities.MenuEntity;
 import ua.in.velopatrol.velopatrol.fragments.PlaceHolderFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserArticlesFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserHomeFragment;
+import ua.in.velopatrol.velopatrol.fragments.UserProfileFragment;
 import ua.in.velopatrol.velopatrol.fragments.UserVolunteerFragment;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
@@ -106,7 +107,7 @@ public class UserMainActivity extends SupportRightActionBarActivity implements V
 				new MenuEntity(UserHomeFragment.class, "Виклики"),
 				new MenuEntity(UserVolunteerFragment.class, "Волонтери"),
 				new MenuEntity(UserArticlesFragment.class, "Новини"),
-				new MenuEntity(PlaceHolderFragment.class, "Профіль")
+				new MenuEntity(UserProfileFragment.class, "Профіль")
 		);
 		final MainMenuAdapter adapter = new MainMenuAdapter(this, menuEntities);
 		listMenu.setAdapter(adapter);
