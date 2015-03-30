@@ -46,8 +46,17 @@
 			android:layout_height="wrap_content"/>
 	</RadioGroup>
 
-	<android.support.v7.widget.RecyclerView
-		android:id="@+id/recycler_view"
+	<android.support.v4.widget.SwipeRefreshLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/refresh"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent"
+		tools:context="com.shppandroid1.app.MainActivity">
+
+		<android.support.v7.widget.RecyclerView
+			android:id="@+id/recycler_view"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
+	</android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

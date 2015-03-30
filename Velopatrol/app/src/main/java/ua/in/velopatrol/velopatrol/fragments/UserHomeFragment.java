@@ -3,6 +3,7 @@ package ua.in.velopatrol.velopatrol.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,14 +14,22 @@ import android.widget.RadioGroup;
 import com.rightutils.rightutils.activities.SupportRightActionBarActivity;
 
 import ua.in.velopatrol.velopatrol.R;
+import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
+import ua.in.velopatrol.velopatrol.entities.Article;
+import ua.in.velopatrol.velopatrol.entities.ResponseError;
+import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
+import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
+import ua.in.velopatrol.velopatrol.tasks.RetrieveChallenge;
+import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 /**
  * Created by Anton on 2/1/2015.
  */
-public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
+public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedChangeListener, SwipeRefreshLayout.OnRefreshListener {
 
 	private static final String TAG = UserHomeFragment.class.getSimpleName();
 	private RecyclerView mRecyclerView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
 	private RecyclerView.LayoutManager mLayoutManager;
 
 	@Override
@@ -37,6 +46,8 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+		mSwipeRefreshLayout.setOnRefreshListener(this);
 		((RadioGroup)view.findViewById(R.id.challenge_type)).setOnCheckedChangeListener(this);
 
 		mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -55,5 +66,36 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 //				updateList(JobStatus.CLOSED);
 				break;
 		}
+	}
+
+	private void updateList(boolean showProgress) {
+		final RetrieveChallenge task = new RetrieveChallenge(getActivity(), showProgress);
+		task.setCallback(new BaseTaskMaterial.Callback() {
+			@Override
+			public void successful() {
+//				articles.clear();
+//				articles.addAll(VelopatlorApp.dbUtils.getAll(Article.class));
+//				adapter.notifyDataSetChanged();
+//				mSwipeRefreshLayout.setRefreshing(false);
+			}
+
+			@Override
+			public void failed() {
+				ResponseError error = task.getError();
+				if (error != null) {
+					SystemUtils.toast(getActivity(), error.getMessage());
+				} else {
+					SystemUtils.toast(getActivity(), R.string.something_was_wrong);
+				}
+				mSwipeRefreshLayout.setRefreshing(false);
+			}
+		});
+		task.execute();
+	}
+
+	@Override
+	public void onRefresh() {
+		mSwipeRefreshLayout.setRefreshing(true);
+		updateList(false);
 	}
 }
