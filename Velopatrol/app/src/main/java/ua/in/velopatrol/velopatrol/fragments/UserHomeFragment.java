@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,11 @@ import android.widget.RadioGroup;
 import com.rightutils.rightutils.activities.SupportRightActionBarActivity;
 
 import ua.in.velopatrol.velopatrol.R;
+import ua.in.velopatrol.velopatrol.adapters.UserChallengeAdapter;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
 import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
+import ua.in.velopatrol.velopatrol.enums.ChallengeState;
 import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveChallenge;
@@ -30,7 +33,9 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 	private static final String TAG = UserHomeFragment.class.getSimpleName();
 	private RecyclerView mRecyclerView;
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-	private RecyclerView.LayoutManager mLayoutManager;
+	private LinearLayoutManager mLayoutManager;
+	private UserChallengeAdapter adapter;
+	private boolean loading = true;
 
 	@Override
 	public void onResume() {
@@ -54,16 +59,36 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 		mRecyclerView.setHasFixedSize(true);
 		mLayoutManager = new LinearLayoutManager(getActivity());
 		mRecyclerView.setLayoutManager(mLayoutManager);
+		adapter = new UserChallengeAdapter(getActivity());
+		mRecyclerView.setAdapter(adapter);
+		adapter.getFilter().filter(ChallengeState.OPEN.getValue());
+
+		mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+				super.onScrolled(recyclerView, dx, dy);
+				int visibleItemCount = mLayoutManager.getChildCount();
+				int totalItemCount = mLayoutManager.getItemCount();
+				int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+				if (loading) {
+					if ( (visibleItemCount+pastVisiblesItems) >= totalItemCount) {
+						loading = false;
+						Log.i(TAG, "Last Item Wow !");
+					}
+				}
+			}
+		});
 	}
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		switch (checkedId) {
 			case R.id.rbtn_open:
-//				updateList(JobStatus.OPEN);
+				adapter.getFilter().filter(ChallengeState.OPEN.getValue());
 				break;
 			case R.id.rbtn_closed:
-//				updateList(JobStatus.CLOSED);
+				adapter.getFilter().filter(ChallengeState.CLOSED.getValue());
 				break;
 		}
 	}
@@ -76,7 +101,7 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 //				articles.clear();
 //				articles.addAll(VelopatlorApp.dbUtils.getAll(Article.class));
 //				adapter.notifyDataSetChanged();
-//				mSwipeRefreshLayout.setRefreshing(false);
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 
 			@Override
