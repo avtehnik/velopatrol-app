@@ -21,6 +21,7 @@ import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.Cache;
 import ua.in.velopatrol.velopatrol.entities.Challenge;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
+import ua.in.velopatrol.velopatrol.enums.RequestOrder;
 import ua.in.velopatrol.velopatrol.utils.SystemUtils;
 
 import static com.rightutils.rightutils.utils.RightUtils.isOnline;
@@ -33,9 +34,11 @@ public class RetrieveChallenge extends BaseTaskMaterial {
 	private static final String TAG = RetrieveChallenge.class.getSimpleName();
 	private ResponseError error;
 	private Cache cache;
+	private RequestOrder order;
 
-	public RetrieveChallenge(Context context, boolean showProgress) {
+	public RetrieveChallenge(Context context, boolean showProgress, RequestOrder order) {
 		super(context, showProgress);
+		this.order = order;
 		SystemUtils.getCache(context, new CacheUtils.CallBack<Cache>() {
 			@Override
 			public void run(Cache cache) {
@@ -51,10 +54,11 @@ public class RetrieveChallenge extends BaseTaskMaterial {
 				error = new ResponseError(context.getString(R.string.no_internet_connection));
 				return false;
 			}
-			//TODO change 0
 			String url = Uri.parse(SystemUtils.CHALLENGE_LIST).buildUpon()
-					.appendQueryParameter("timestamp", "0")
+					.appendQueryParameter("timestamp", String.valueOf(VelopatlorApp.dbUtils.getChallengeTime(order)))
+					.appendQueryParameter("order", order.getValue())
 					.build().toString();
+			Log.i(TAG, url);
 			HttpResponse response = RequestUtils.getHttpResponse(url, new BasicHeader("AUTH-KEY", cache.getUser().getAuthToken()));
 			int status = response.getStatusLine().getStatusCode();
 			Log.i(TAG, "status code: " + String.valueOf(status));

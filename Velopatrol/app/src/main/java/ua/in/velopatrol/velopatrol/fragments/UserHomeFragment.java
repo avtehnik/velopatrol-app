@@ -20,6 +20,7 @@ import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
 import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.enums.ChallengeState;
+import ua.in.velopatrol.velopatrol.enums.RequestOrder;
 import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveArticles;
 import ua.in.velopatrol.velopatrol.tasks.RetrieveChallenge;
@@ -75,6 +76,7 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 					if ( (visibleItemCount+pastVisiblesItems) >= totalItemCount) {
 						loading = false;
 						Log.i(TAG, "Last Item Wow !");
+						updateList(true, RequestOrder.ASC);
 					}
 				}
 			}
@@ -93,15 +95,13 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 		}
 	}
 
-	private void updateList(boolean showProgress) {
-		final RetrieveChallenge task = new RetrieveChallenge(getActivity(), showProgress);
+	private void updateList(boolean showProgress, RequestOrder order) {
+		final RetrieveChallenge task = new RetrieveChallenge(getActivity(), showProgress, order);
 		task.setCallback(new BaseTaskMaterial.Callback() {
 			@Override
 			public void successful() {
-//				articles.clear();
-//				articles.addAll(VelopatlorApp.dbUtils.getAll(Article.class));
-//				adapter.notifyDataSetChanged();
 				mSwipeRefreshLayout.setRefreshing(false);
+				loading = true;
 			}
 
 			@Override
@@ -121,6 +121,6 @@ public class UserHomeFragment extends Fragment implements RadioGroup.OnCheckedCh
 	@Override
 	public void onRefresh() {
 		mSwipeRefreshLayout.setRefreshing(true);
-		updateList(false);
+		updateList(false, RequestOrder.DESC);
 	}
 }
