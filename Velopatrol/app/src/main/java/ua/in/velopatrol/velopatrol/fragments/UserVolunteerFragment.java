@@ -1,5 +1,6 @@
 package ua.in.velopatrol.velopatrol.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,8 +17,11 @@ import com.rightutils.rightutils.collections.RightList;
 import com.rightutils.rightutils.tasks.BaseTask;
 
 import ua.in.velopatrol.velopatrol.R;
+import ua.in.velopatrol.velopatrol.activities.ArticleActivity;
+import ua.in.velopatrol.velopatrol.activities.VolunteerDetailActivity;
 import ua.in.velopatrol.velopatrol.adapters.VolunteersAdapter;
 import ua.in.velopatrol.velopatrol.applications.VelopatlorApp;
+import ua.in.velopatrol.velopatrol.entities.Article;
 import ua.in.velopatrol.velopatrol.entities.ResponseError;
 import ua.in.velopatrol.velopatrol.entities.Volunteer;
 import ua.in.velopatrol.velopatrol.tasks.BaseTaskMaterial;
@@ -54,7 +59,21 @@ public class UserVolunteerFragment extends Fragment implements SwipeRefreshLayou
 		volunteers = VelopatlorApp.dbUtils.getVolunteers();
 		adapter = new VolunteersAdapter(getActivity(), volunteers);
 		listView.setAdapter(adapter);
-		updateList(true);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Volunteer volunteer  =  volunteers.get(position);
+
+                Intent i=new Intent(view.getContext(), VolunteerDetailActivity.class);
+                i.putExtra("id", volunteer.getId() );
+//                i.putExtra("text",  article.getText() );
+//                i.putExtra("date",  article.getDate() );
+
+                startActivity(i);
+            }
+        });
+
+        updateList(true);
 	}
 
 
